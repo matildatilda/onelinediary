@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>今日の日記</title>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+function onSubmit()
+{
+    var url = "php/setDiary.php";
+    var today = new Date();
+    
+    $.post(url, 
+        {
+            "year" :  today.getFullYear(),
+            "month" : (today.getMonth() + 1),
+            "day" : today.getDate(),
+            "diary" : $("#diary").val()
+        },
+        function(data)
+        {
+        }
+    );
+}
+$(document).ready(function()
+{
+
+    $("#submit").on("click", function(){
+        onSubmit();        
+    });
+});
+</script>        
+    </head>
+    <body>
+    <div>
+        <p id="today"></p>
+        <div>
+            <textarea name="diary" id="diary"></textarea>
+            <button id="submit">送信</button>
+        </div>
+    </div>
+    <a href="onelinediary.html">一覧に戻る</a>
+    </body>
+</html>

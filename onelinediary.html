@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>１行日記をつくってみます。</title>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+var year, month;
+
+$(document).ready(function(){
+	
+	//日記を書く
+	$("#writeDiary").on("click", function(){
+			
+	});
+	
+	//先月
+	$("#lastMonth").on("click", function(){
+		month--;
+		if (month < 0)
+		{
+			month = 11;
+			year--;
+		}	
+		showDiary();	
+	});
+
+	//来月
+	$("#nextMonth").on("click", function(){
+		if (11 < month)
+		{
+			month = 0;
+			year++;
+		}
+		showDiary();	
+	});
+	
+	onload();
+});
+function onload()
+{
+	//今日の日付を取得	
+	var today = new Date();
+	
+	//年、月を設定
+	year = today.getFullYear();
+	month = today.getMonth();
+
+	showDiary();	
+}
+function getDiaries()
+{
+	var url = "php/getDiaries.php/?year=" + year + "&month=" + (month + 1);
+	$.get(url, function(data){
+		$("#diaryTable").append(data);			
+	});
+}
+function showDiary()
+{
+	$("#yearMonth").html(year + "年" + (month + 1) + "月");
+
+	$("#diaryTable").empty();	//remove child elements;
+	getDiaries();
+}
+</script>
+</head>
+<body>
+<h1>matildatildaの１行日記</h1>
+<div>
+	<button id="lastMonth" type="button">先月</button>
+	<span id="yearMonth"></span>
+	<button id="nextMonth" type="button">来月</button>
+	<table id="diaryTable" border="1">
+	</table>
+</div>
+<div>
+<a href="writeDiary.html">日記を書く</a>
+</div>	
+</body>
+</html>
