@@ -63,14 +63,45 @@ function showDiary()
 	getDiaries();
 }
 </script>
+<style type="text/css">
+.sample_01{
+width: 100%;
+border-collapse: collapse;
+}
+.sample_01 th{
+width: 25%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.sample_01 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
+.title3 {
+border-bottom: 3px solid #b9b9b9;
+text-align: left;
+background-color: #fff;
+font-size: 18px;
+color: #000;
+margin: 0px;
+padding: 2px 2px 2px 15px;
+width:400px;
+}
+</style>
 </head>
 <body>
-<h1>matildatildaの１行日記</h1>
+<h1 class="title3">matildatildaの１行日記</h1>
+</br>
 <div>
 	<button id="lastMonth" type="button">先月</button>
 	<span id="yearMonth"></span>
 	<button id="nextMonth" type="button">来月</button>
-	<table id="diaryTable" border="1">
+	<table id="diaryTable" class="sample_01">
 	</table>
 </div>
 <div>

@@ -7,27 +7,96 @@
 <script type="text/javascript">
 function onSubmit()
 {
-    var url = "php/setDiary.php";
-    var today = new Date();
-    
-    $.post(url, 
+    var url;
+    if ($("#diary_id").val() == 0)
+    {
+        url = "php/setDiary.php";
+
+        $.post(url, 
+            {
+                "year" :  $("#year").val(),
+                "month" : $("#month").val(),
+                "day" : $("#day").val(),
+                "diary" : $("#diary").val()
+            },
+            function(data)
+            {
+            }
+        );
+    }
+    else
+    {
+        url = "php/updateDiary.php";
+
+        $.post(url, 
+            {
+                "diary_id" :  $("#diary_id").val(),
+                "diary" : $("#diary").val()
+            },
+            function(data)
+            {
+            }
+        );
+    }
+}
+function onLoad()
+{
+    var url = location.href;
+    var parameter = url.split("?");
+    if (1 < parameter.length)
+    {
+        var params = parameter[1].split("&");
+        var i;
+        var param;
+        for (i = 0; i < params.length; i++)
         {
-            "year" :  today.getFullYear(),
-            "month" : (today.getMonth() + 1),
-            "day" : today.getDate(),
-            "diary" : $("#diary").val()
-        },
-        function(data)
-        {
+            param = params[i].split("=");
+            if (param[0]=="diary_id")
+            {
+                $.get("php/editDiary.php/?diary_id=" + param[1], function(data)
+                {
+                    $("#diary").val(data.diary);
+                    $("#year").val(data.year);
+                    $("#month").val(data.month);
+                    $("#day").val(data.day);
+                    $("#diary_id").val(param[1]);
+                });
+                break;
+            }
         }
-    );
+    }
+    else
+    {
+        var today = new Date();
+        $("#year").val(today.getFullYear());
+        $("#month").val(today.getMonth() + 1);
+        $("#day").val(today.getDate());
+        $("#diary_id").val(0);
+    }
+}
+function onDelete()
+{
+       var url = "php/deleteDiary.php";
+
+        $.post(url, 
+            {
+                "diary_id" :  $("#diary_id").val()
+            },
+            function(data)
+            {
+            }
+        );    
 }
 $(document).ready(function()
 {
-
     $("#submit").on("click", function(){
         onSubmit();        
     });
+    $("#delete").on("click", function(){
+        onDelete();
+    });
+    
+    onLoad();
 });
 </script>        
     </head>
@@ -35,8 +104,15 @@ $(document).ready(function()
     <div>
         <p id="today"></p>
         <div>
+            <input type="text" id="year" value=""/>
+            <input type="text" id="month" value=""/>
+            <input type="text" id="day" value=""/>
+            <input type="hidden" id="diary_id" value="0"/>
+            <br/>
             <textarea name="diary" id="diary"></textarea>
+            <br/>
             <button id="submit">送信</button>
+            <button id="delete">削除</button>
         </div>
     </div>
     <a href="onelinediary.html">一覧に戻る</a>
