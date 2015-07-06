@@ -10,7 +10,7 @@ function onSubmit()
     var url;
     if ($("#diary_id").val() == 0)
     {
-        url = "php/setDiary.php";
+        url = "php/insertDiary.php";
 
         $.post(url, 
             {
@@ -53,12 +53,12 @@ function onLoad()
             param = params[i].split("=");
             if (param[0]=="diary_id")
             {
-                $.get("php/editDiary.php/?diary_id=" + param[1], function(data)
+                $.get("php/selectDiaries.php/?diary_id=" + param[1], function(data)
                 {
-                    $("#diary").val(data.diary);
-                    $("#year").val(data.year);
-                    $("#month").val(data.month);
-                    $("#day").val(data.day);
+                    $("#diary").val(data[0].diary);
+                    $("#year").val(data[0].year);
+                    $("#month").val(data[0].month);
+                    $("#day").val(data[0].day);
                     $("#diary_id").val(param[1]);
                 });
                 break;
@@ -76,16 +76,16 @@ function onLoad()
 }
 function onDelete()
 {
-       var url = "php/deleteDiary.php";
+    var url = "php/deleteDiary.php";
 
-        $.post(url, 
-            {
-                "diary_id" :  $("#diary_id").val()
-            },
-            function(data)
-            {
-            }
-        );    
+    $.post(url, 
+        {
+            "diary_id" :  $("#diary_id").val()
+        },
+        function(data)
+        {
+        }
+    );    
 }
 $(document).ready(function()
 {
@@ -98,18 +98,28 @@ $(document).ready(function()
     
     onLoad();
 });
-</script>        
+</script>
+<style type="text/css">
+textarea.sample_01
+{
+width: 300px;    
+}
+input.sample_01 
+{
+width: 60px;
+}
+</style>
     </head>
     <body>
     <div>
         <p id="today"></p>
         <div>
-            <input type="text" id="year" value=""/>
-            <input type="text" id="month" value=""/>
-            <input type="text" id="day" value=""/>
+            <input class="sample_01" type="text" id="year" value=""/>
+            <input class="sample_01" type="text" id="month" value=""/>
+            <input class="sample_01" type="text" id="day" value=""/>
             <input type="hidden" id="diary_id" value="0"/>
             <br/>
-            <textarea name="diary" id="diary"></textarea>
+            <textarea class="sample_01" name="diary" id="diary"></textarea>
             <br/>
             <button id="submit">送信</button>
             <button id="delete">削除</button>

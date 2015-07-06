@@ -8,12 +8,7 @@
 var year, month;
 
 $(document).ready(function(){
-	
-	//日記を書く
-	$("#writeDiary").on("click", function(){
-			
-	});
-	
+
 	//先月
 	$("#lastMonth").on("click", function(){
 		month--;
@@ -27,6 +22,7 @@ $(document).ready(function(){
 
 	//来月
 	$("#nextMonth").on("click", function(){
+		month++;
 		if (11 < month)
 		{
 			month = 0;
@@ -50,9 +46,22 @@ function onload()
 }
 function getDiaries()
 {
-	var url = "php/getDiaries.php/?year=" + year + "&month=" + (month + 1);
+	var url = "php/selectDiaries.php/?year=" + year + "&month=" + (month + 1);
 	$.get(url, function(data){
-		$("#diaryTable").append(data);			
+		for (var i in data)
+		{
+			$("#diaryTable")
+			.append($("<tr></tr>")
+				.append($("<td></td>").html(data[i].day))
+				.append($("<td></td>").html(data[i].diary))
+				.append($("<td></td>")
+					.append($("<a></a>")
+						.html("変更")
+						.attr("href", "/writeDiary.html?diary_id=" + data[i].diary_id)
+					)
+				)
+			);
+		}
 	});
 }
 function showDiary()
@@ -60,6 +69,14 @@ function showDiary()
 	$("#yearMonth").html(year + "年" + (month + 1) + "月");
 
 	$("#diaryTable").empty();	//remove child elements;
+
+	$("#diaryTable")
+	.append($("<tr></tr>")
+		.append($("<th></th>").html("日"))
+		.append($("<th></th>").html("日記"))
+		.append($("<th></th>").html("変更"))
+	);
+
 	getDiaries();
 }
 </script>
