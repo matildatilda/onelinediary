@@ -7,7 +7,9 @@
 <script type="text/javascript">
 function onSubmit()
 {
+
     var url;
+
     if ($("#diary_id").val() == 0)
     {
         url = "php/insertDiary.php";
@@ -38,6 +40,28 @@ function onSubmit()
             }
         );
     }
+
+    var diaryText = $("#diary").val();
+    var tags = diaryText.split("#");
+    var i;
+    var tag;
+    var tagList = [];
+    for (i = 1; i < tags.length; i++)
+    {
+        tag = tags[i].replace("#","");
+        tag = tags[i].replace(",","");
+        tagList[i-1] = tag;
+    }
+    url = "php/insertTags.php";
+
+    $.post(url, 
+        {
+            "tags[]" : tagList
+        },
+        function(data)
+        {
+        }
+    );        
 }
 function onLoad()
 {
@@ -119,7 +143,7 @@ width: 60px;
             <input class="sample_01" type="text" id="day" value=""/>
             <input type="hidden" id="diary_id" value="0"/>
             <br/>
-            <textarea class="sample_01" name="diary" id="diary"></textarea>
+            <textarea class="sample_01" id="diary"></textarea>
             <br/>
             <button id="submit">送信</button>
             <button id="delete">削除</button>

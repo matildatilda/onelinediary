@@ -18,7 +18,7 @@
     }
     else
     {
-        $sql = "SELECT * FROM diaries WHERE year = ".$_GET["year"]." AND month = ".$_GET["month"];
+        $sql = "SELECT * FROM diaries WHERE year = ".$_GET["year"]." AND month = ".$_GET["month"]." ORDER BY year, month, day";
     }
     
     $result = $mysqli->query($sql);

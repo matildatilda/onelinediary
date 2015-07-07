@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta charset="UTF-8" />        
+        <title>今月の振り返り</title>
+    </head>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+var year, month;
+
+function onload()
+{
+	//今日の日付を取得	
+	var today = new Date();
+	
+	//年、月を設定
+	year = today.getFullYear();
+	month = today.getMonth();
+
+    showAchieve();
+    
+}
+function showAchieve()
+{
+    $("#yearMonth").html(year + "年" + (month + 1) + "月の実績");
+    $("#achieveTable").empty();
+
+    var url = "php/countTags.php/?year=" + year + "&month=" + (month + 1);
+
+	$.get(url, function(data){
+		for (var i in data)
+		{
+		    $("#achieveTable")
+                .append($("<tr></tr>")
+	                .append($("<th></th>").html(data[i].tag))
+                    .append($("<td></td>").html(data[i].numOfDiaries))
+            );
+		}
+	});    
+}
+$(document).ready(function()
+{
+	//先月
+	$("#lastMonth").on("click", function(){
+		month--;
+		if (month < 0)
+		{
+			month = 11;
+			year--;
+		}	
+		showAchieve();	
+	});
+
+	//来月
+	$("#nextMonth").on("click", function(){
+		month++;
+		if (11 < month)
+		{
+			month = 0;
+			year++;
+		}
+		showAchieve();	
+	});
+
+    onload();
+});
+</script>
+    <body>
+	<button id="lastMonth" type="button">先月</button>
+	<span id="yearMonth"></span>
+	<button id="nextMonth" type="button">来月</button>
+
+<table id="achieveTable" border="1"></table>
+    </body>
+</html>

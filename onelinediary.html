@@ -17,7 +17,7 @@ $(document).ready(function(){
 			month = 11;
 			year--;
 		}	
-		showDiary();	
+		showDiaries();	
 	});
 
 	//来月
@@ -28,7 +28,7 @@ $(document).ready(function(){
 			month = 0;
 			year++;
 		}
-		showDiary();	
+		showDiaries();	
 	});
 	
 	onload();
@@ -42,7 +42,7 @@ function onload()
 	year = today.getFullYear();
 	month = today.getMonth();
 
-	showDiary();	
+	showDiaries();
 }
 function getDiaries()
 {
@@ -64,7 +64,7 @@ function getDiaries()
 		}
 	});
 }
-function showDiary()
+function showDiaries()
 {
 	$("#yearMonth").html(year + "年" + (month + 1) + "月");
 
@@ -122,7 +122,9 @@ width:400px;
 	</table>
 </div>
 <div>
-<a href="writeDiary.html">日記を書く</a>
+<a href="/writeDiary.html">日記を書く</a>
+<br/>
+<a href="/achievement.html">実績を見る</a>
 </div>	
 </body>
 </html>
