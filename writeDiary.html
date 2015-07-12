@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8"/>
-        <title>今日の日記</title>
+<head>
+    <meta charset="UTF-8"/>
+    <title>今日の日記</title>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
 function onSubmit()
 {
-
     var url;
 
     if ($("#diary_id").val() == 0)
@@ -97,6 +96,8 @@ function onLoad()
         $("#day").val(today.getDate());
         $("#diary_id").val(0);
     }
+    
+    showTags();
 }
 function onDelete()
 {
@@ -111,44 +112,98 @@ function onDelete()
         }
     );    
 }
+function showTags()
+{
+    $("#taglist").empty();
+    
+    $("#taglist")
+        .append($("<tr></tr>")
+            .append($("<th>タグ</th>"))
+    );
+
+    var url = "php/selectTags.php";
+
+    $.get(url, function(data)
+        {
+            for (var i in data)
+            {
+                $("#taglist")
+                    .append($("<tr></tr>")
+                        .append($("<td></td>")
+                            .html(data[i].tag)
+                            .on("click", tagClickHandler)
+                    )
+                );    
+            }
+        }
+    );
+}
 $(document).ready(function()
 {
     $("#submit").on("click", function(){
         onSubmit();        
     });
+    
     $("#delete").on("click", function(){
         onDelete();
     });
     
     onLoad();
 });
+function tagClickHandler(event)
+{
+    var target = $(event.target);
+    var diary = $("#diary").val() + " #" + target.html();
+    $("#diary").val(diary);
+}
 </script>
 <style type="text/css">
+.sample_00{
+width: 200px;
+border-collapse: collapse;
+}
+.sample_00 th{
+width: 100%;
+padding: 6px;
+text-align: left;
+vertical-align: top;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.sample_00 td{
+padding: 6px;
+background-color: #fff;
+border: 1px solid #b9b9b9;
+}
 textarea.sample_01
 {
-width: 300px;    
+width: 300px;
+height: 100px;
 }
 input.sample_01 
 {
 width: 60px;
 }
 </style>
-    </head>
-    <body>
-    <div>
-        <p id="today"></p>
-        <div>
-            <input class="sample_01" type="text" id="year" value=""/>
-            <input class="sample_01" type="text" id="month" value=""/>
-            <input class="sample_01" type="text" id="day" value=""/>
-            <input type="hidden" id="diary_id" value="0"/>
-            <br/>
-            <textarea class="sample_01" id="diary"></textarea>
-            <br/>
-            <button id="submit">送信</button>
-            <button id="delete">削除</button>
-        </div>
+</head>
+<body>
+    <div style="float:left">
+        <input class="sample_01" type="text" id="year" value=""/>
+        <input class="sample_01" type="text" id="month" value=""/>
+        <input class="sample_01" type="text" id="day" value=""/>
+        <input type="hidden" id="diary_id" value="0"/>
+        <br/>
+        <textarea class="sample_01" id="diary"></textarea>
+        <br/>
+        <button id="submit">送信</button>
+        <button id="delete">削除</button>
+        <br/>
+        <br/>
+        <a href="/onelinediary.html">一覧に戻る</a>
     </div>
-    <a href="onelinediary.html">一覧に戻る</a>
-    </body>
+    <div>
+        <table id="taglist" class="sample_00"></table>        
+    </div>
+</body>
 </html>

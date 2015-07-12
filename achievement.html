@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
-    <head>
-<meta charset="UTF-8" />        
-        <title>今月の振り返り</title>
-    </head>
+<head>
+	<meta charset="UTF-8" />        
+    <title>今月の振り返り</title>
+</head>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
 var year, month;
 
-function onload()
+function onLoad()
 {
 	//今日の日付を取得	
 	var today = new Date();
@@ -30,10 +30,19 @@ function showAchieve()
 	$.get(url, function(data){
 		for (var i in data)
 		{
+		    var par = Math.floor(data[i].numOfDiaries / 30 * 100);
 		    $("#achieveTable")
                 .append($("<tr></tr>")
 	                .append($("<th></th>").html(data[i].tag))
                     .append($("<td></td>").html(data[i].numOfDiaries))
+                    .append($("<td></td>")
+                    	.addClass("sample_01")
+                    	.append($("<div></div>")
+                    		.css("width", par + "%")
+                    		.addClass("sample_02")
+                    		.html(par + "%")
+                    	)
+                    )
             );
 		}
 	});    
@@ -62,14 +71,46 @@ $(document).ready(function()
 		showAchieve();	
 	});
 
-    onload();
+    onLoad();
 });
 </script>
-    <body>
+<style type="text/css">
+.sample_00
+{
+width: 100%;	
+border-collapse: collapse;	
+}
+.sample_00 th
+{
+width: 40%;
+color: #333;
+background-color: #eee;
+border: 1px solid #b9b9b9;
+}
+.sample_00 td
+{
+background-color: #fff;
+border: 1px solid #b9b9b9;	
+}
+.sample_01 
+{
+width: 50%;	
+}
+.sample_02
+{
+color: #888;
+height: 20px;
+background-color: #ff0;
+}
+</style>
+<body>
 	<button id="lastMonth" type="button">先月</button>
 	<span id="yearMonth"></span>
 	<button id="nextMonth" type="button">来月</button>
-
-<table id="achieveTable" border="1"></table>
-    </body>
+	<br/>
+	<br/>
+	<table id="achieveTable" class="sample_00"></table>
+	<br/>
+	<a href="/onelinediary.html">一覧に戻る</a>
+</body>
 </html>

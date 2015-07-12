@@ -24,7 +24,7 @@
             'tag'=>$row[1]
         );
     }    
-
+    
     header('Content-type: application/json');
     echo json_encode($data);
 

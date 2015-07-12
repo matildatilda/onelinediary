@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8" />
-<title>１行日記をつくってみます。</title>
+	<meta charset="UTF-8" />
+	<title>１行日記をつくってみます。</title>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
 var year, month;
@@ -31,9 +31,9 @@ $(document).ready(function(){
 		showDiaries();	
 	});
 	
-	onload();
+	onLoad();
 });
-function onload()
+function onLoad()
 {
 	//今日の日付を取得	
 	var today = new Date();
@@ -86,7 +86,6 @@ width: 100%;
 border-collapse: collapse;
 }
 .sample_01 th{
-width: 25%;
 padding: 6px;
 text-align: left;
 vertical-align: top;
@@ -113,16 +112,20 @@ width:400px;
 </head>
 <body>
 <h1 class="title3">matildatildaの１行日記</h1>
-</br>
+<br/>
 <div>
 	<button id="lastMonth" type="button">先月</button>
 	<span id="yearMonth"></span>
 	<button id="nextMonth" type="button">来月</button>
+	<br/>
+	<br/>
 	<table id="diaryTable" class="sample_01">
 	</table>
 </div>
+<br/>
 <div>
 <a href="/writeDiary.html">日記を書く</a>
+<br/>
 <br/>
 <a href="/achievement.html">実績を見る</a>
 </div>	
